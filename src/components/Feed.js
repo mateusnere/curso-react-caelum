@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {View, FlatList, Text, Image, Dimensions} from 'react-native';
-
-const width = Dimensions.get('screen').width;
+import {FlatList, Dimensions, StyleSheet} from 'react-native';
+import Post from './Post';
 
 export default class Feed extends Component {
     render() {
@@ -11,18 +10,20 @@ export default class Feed extends Component {
             {id: 3, usuario: 'Vitor'}
         ]
         return (
-            <FlatList style = {{marginTop: 20}}
-                keyExtractor = {item => item.id} 
+            <FlatList style = {styles.container}
                 data = {fotos}
+                keyExtractor = {item => String(item.id)} 
                 renderItem = { ({item}) => 
-                    <View>
-                        <Text>{item.usuario}</Text>
-                        <Image source = {require('../../resources/img/alura.png')}
-                            style = {{width: width, height: width}} />
-                    </View>
+                    <Post foto={item}/>
                 }
             />
                 
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        marginTop: 20,
+      },
+});
