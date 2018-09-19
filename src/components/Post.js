@@ -4,15 +4,16 @@ import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
 const width = Dimensions.get('screen').width;
 
 export default class Post extends Component {
+
     render() {
         return(
             <View>
                 <View style={styles.cabecalho}>
-                    <Image source = {require('../../resources/img/alura.png')}
+                    <Image source = {{uri: this.props.foto.urlPerfil}}
                         style = {styles.fotoDePerfil} />
-                    <Text>{this.props.foto.usuario}</Text>
+                    <Text>{this.props.foto.loginUsuario}</Text>
                 </View>
-                <Image source = {require('../../resources/img/alura.png')}
+                <Image source = {{uri: this.props.foto.urlFoto}}
                         style = {styles.foto} />
             </View>
         );

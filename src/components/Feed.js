@@ -3,15 +3,24 @@ import {FlatList, Dimensions, StyleSheet} from 'react-native';
 import Post from './Post';
 
 export default class Feed extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            fotos: []
+        }
+    }
+
+    componentDidMount() {
+        fetch('https://instalura-api.herokuapp.com/api/public/fotos/rafael')
+        .then(resposta => resposta.json())
+        .then(json => this.setState({fotos: json}));
+    }
+
     render() {
-        const fotos = [
-            {id: 1, usuario: 'Rafael'},
-            {id: 2, usuario: 'Alberto'},
-            {id: 3, usuario: 'Vitor'}
-        ]
         return (
             <FlatList style = {styles.container}
-                data = {fotos}
+                data = {this.state.fotos}
                 keyExtractor = {item => String(item.id)} 
                 renderItem = { ({item}) => 
                     <Post foto={item}/>
