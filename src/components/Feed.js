@@ -11,10 +11,18 @@ export default class Feed extends Component {
         }
     }
 
+    async apiFetch() {
+        const resposta = await fetch('https://instalura-api.herokuapp.com/api/public/fotos/rafael');
+        const json = await resposta.json();
+        this.setState({fotos: json});
+    }
+
     componentDidMount() {
-        fetch('https://instalura-api.herokuapp.com/api/public/fotos/rafael')
+        /*fetch('https://instalura-api.herokuapp.com/api/public/fotos/rafael')
         .then(resposta => resposta.json())
-        .then(json => this.setState({fotos: json}));
+        .then(json => this.setState({fotos: json}));*/
+
+        this.apiFetch();
     }
 
     render() {
