@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, TextInput} from 'react-native';
+import InputComentario from './InputComentario';
 
 const width = Dimensions.get('screen').width;
 
@@ -75,13 +76,13 @@ export default class Post extends Component {
         );
     }
 
-    adicionaComentario = () => {
-        if(this.state.valorComentario === '') return;
+    adicionaComentario = (valorComentario, inputComentario) => {
+        if(valorComentario === '') return;
 
         const novaLista = [...this.state.foto.comentarios, {
-            id: this.state.valorComentario,
+            id: valorComentario,
             login: 'meuUsuario',
-            texto: this.state.valorComentario,
+            texto: valorComentario,
         }];
 
         const fotoAtualizada = {
@@ -90,7 +91,7 @@ export default class Post extends Component {
         }
 
         this.setState({foto: fotoAtualizada, valorComentario: ''});
-        this.inputComentario.clear();
+        inputComentario.clear();
     }
 
     render() {
@@ -115,14 +116,7 @@ export default class Post extends Component {
                     {this.exibeLikes(foto)}
                     {this.exibeLegenda(foto)}
                     {this.exibeComentarios(foto)}
-                    <View style={styles.novoComentario}>
-                        <TextInput style={styles.input} placeholder='Adicione um comentário...' 
-                            ref={input => this.inputComentario = input} 
-                            onChangeText={texto => this.setState({valorComentario: texto})} />
-                        <TouchableOpacity onPress={this.adicionaComentario}>
-                            <Image style={styles.icone} source={require('../../resources/img/send.png')} />
-                        </TouchableOpacity>
-                    </View>
+                    <InputComentario comentarioCallback={this.adicionaComentario} />
                 </View>
             </View>
         );
@@ -161,19 +155,5 @@ const styles = StyleSheet.create({
     tituloComentario: {
         fontWeight: 'bold',
         marginRight: 5,
-    },
-    input: {
-        flex: 1,
-        height: 40,
-    },
-    icone: {
-        height: 40,
-        width: 30,
-    },
-    novoComentario: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
     },
 });
