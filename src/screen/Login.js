@@ -6,6 +6,7 @@ import {
     StyleSheet,
     Button,
     Text,
+    AsyncStorage,
 } from 'react-native';
 
 const width = Dimensions.get('screen').width;
@@ -15,8 +16,9 @@ export default class Login extends Component {
     constructor() {
         super();
         this.state = {
-            usuario: '',
+            usuario: 'Rafael',
             senha: '',
+            mensagem: '',
         }
     }
 
@@ -40,7 +42,11 @@ export default class Login extends Component {
             } else {
                 throw new Error('Não foi possível efetuar login');
             }
-        }).then(token => console.warn(token));
+        }).then(token => {
+            AsyncStorage.setItem('token', token);
+            AsyncStorage.setItem('usuario', token.state.usuario);
+        })
+        .catch(error => this.setState({mensagem: error.mensagem}));
     }
 
     render() {
@@ -51,6 +57,7 @@ export default class Login extends Component {
                     <TextInput 
                         autoCapitalize='none'
                         style={styles.input}
+                        defaultValue='Rafael'
                         placeholder="Usuário..."
                         onChangeText={texto => this.setState({usuario: texto})} />
                     
@@ -63,6 +70,9 @@ export default class Login extends Component {
 
                     <Button title='Login' onPress={this.efetuaLogin} />
                 </View>
+                <Text style={styles.mensagem}>
+                    {this.state.mensagem}
+                </Text>
             </View>
         );
     }
@@ -86,5 +96,9 @@ const styles = StyleSheet.create({
     titulo: {
         fontWeight: 'bold',
         fontSize: 26,
+    },
+    mensagem: {
+        marginTop: 15,
+        color: '#e74c3c',
     }
 })
